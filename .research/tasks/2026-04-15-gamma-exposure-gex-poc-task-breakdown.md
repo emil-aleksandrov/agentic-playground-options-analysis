@@ -1,28 +1,31 @@
-Epic: Gamma Exposure (GEX) Analysis Platform POC
+Epic: Options Strategy Analysis Platform POC
 
 Description:
 As a quantitative analyst,
-I want a proof-of-concept platform to analyze Gamma Exposure in stock options,
-So that I can understand market maker positioning and potential price pressure.
+I want a proof-of-concept platform to analyze Gamma Exposure and build options strategies,
+So that I can understand market maker positioning and create profitable options trades.
 
 ## Overview
 
-Build a .NET/C# backend platform that calculates and analyzes Gamma Exposure (GEX) using free, delayed options data. The platform will demonstrate GEX calculation capabilities and provide basic visualization of market maker gamma positioning.
+Build a .NET/C# backend platform that calculates and analyzes Gamma Exposure (GEX) using free, delayed options data, and provides options strategy tools similar to optionstrat.com. The platform will include ticker selection, strike price visualization, predefined/custom strategy creation, and interactive P&L projections.
 
 ## Goals
 
 - Implement accurate GEX calculations using Black-Scholes model
 - Create reliable data ingestion from free sources (Yahoo Finance)
-- Build REST API for GEX data access
-- Develop basic web interface for data visualization
-- Demonstrate GEX analysis capabilities for major stocks
+- Build REST API for GEX and options data access
+- Develop web interface with complex visualizations using Plotly.js
+- Implement options strategy builder with P&L projections
+- Demonstrate analysis capabilities for major stocks
 
 ## Success Criteria
 
 - GEX calculations accurate within 0.1% of expected values
 - System processes data for 10+ major stocks reliably
 - API responds within 2 seconds for current data queries
-- Web interface displays GEX charts and zero gamma levels
+- Web interface displays GEX charts, zero gamma levels, and strategy P&L
+- Strategy builder supports predefined and custom strategies
+- Interactive P&L charts update in real-time
 - Code has 80%+ test coverage
 - Documentation complete for API usage
 
@@ -357,3 +360,209 @@ Complete project documentation and prepare for deployment.
 ## Estimated Story Points
 
 3
+
+---
+
+Story: Implement Options Strategy Builder
+
+Description:
+As a trader,
+I want to select tickers and view available strike prices,
+So that I can build options strategies.
+
+## Context/Background
+
+The platform needs to provide an intuitive interface for selecting underlying securities and exploring available options.
+
+## Acceptance Criteria
+
+- [ ] Ticker selection interface implemented
+- [ ] Options chain data display for selected expiration
+- [ ] Horizontal strike price visualization
+- [ ] Expiration date selection working
+- [ ] Options data filtering and sorting
+- [ ] Real-time data refresh capabilities
+- [ ] Responsive design for strike price display
+
+## Technical Details
+
+- Blazor components for ticker selection
+- Interactive strike price display
+- API integration for options data
+- Caching for performance
+
+## Dependencies
+
+- Basic web interface (Story 5)
+- Options data ingestion (Story 2)
+
+## Notes
+
+Design the strike price visualization similar to optionstrat.com with horizontal layout.
+
+## Estimated Story Points
+
+5
+
+---
+
+Story: Create Predefined Strategy Templates
+
+Description:
+As a trader,
+I want predefined options strategies,
+So that I can quickly create common option positions.
+
+## Context/Background
+
+Common strategies like calls, puts, spreads, and iron condors need to be easily accessible.
+
+## Acceptance Criteria
+
+- [ ] Long call strategy template implemented
+- [ ] Long put strategy template implemented
+- [ ] Bull call spread template implemented
+- [ ] Bear put spread template implemented
+- [ ] Iron condor template implemented
+- [ ] Strategy selection UI working
+- [ ] Template application to selected strikes
+
+## Technical Details
+
+- Strategy template classes with option combinations
+- UI components for strategy selection
+- Validation for strategy requirements
+
+## Dependencies
+
+- Options strategy builder (Story 7)
+
+## Notes
+
+Start with basic strategies and expand based on user feedback.
+
+## Estimated Story Points
+
+3
+
+---
+
+Story: Build Custom Strategy Creator
+
+Description:
+As an advanced trader,
+I want to create custom options strategies,
+So that I can test complex positions.
+
+## Context/Background
+
+Beyond predefined templates, users need flexibility to create custom combinations.
+
+## Acceptance Criteria
+
+- [ ] Drag-and-drop interface for adding options
+- [ ] Manual option selection by strike and type
+- [ ] Strategy save/load functionality
+- [ ] Strategy validation for completeness
+- [ ] Undo/redo capabilities
+- [ ] Strategy naming and description
+
+## Technical Details
+
+- Interactive drag-and-drop components
+- Strategy state management
+- Client-side validation
+
+## Dependencies
+
+- Predefined strategy templates (Story 8)
+
+## Notes
+
+Keep the interface intuitive while allowing complex strategy creation.
+
+## Estimated Story Points
+
+5
+
+---
+
+Story: Implement P&L Visualization Engine
+
+Description:
+As a trader,
+I want to see profit and loss projections for my strategies,
+So that I can understand potential outcomes.
+
+## Context/Background
+
+Interactive P&L charts are essential for strategy analysis and decision making.
+
+## Acceptance Criteria
+
+- [ ] P&L calculation engine implemented
+- [ ] Interactive payoff diagrams with Plotly.js
+- [ ] Breakeven point visualization
+- [ ] Max profit/loss indicators
+- [ ] Real-time recalculation as strategy changes
+- [ ] Multiple chart views (2D, 3D if needed)
+- [ ] Export capabilities for charts
+
+## Technical Details
+
+- Mathematical payoff calculations
+- Plotly.js integration with Blazor
+- Dynamic chart updates
+- Performance optimization for real-time updates
+
+## Dependencies
+
+- Custom strategy creator (Story 9)
+
+## Notes
+
+Ensure calculations are accurate and charts are responsive.
+
+## Estimated Story Points
+
+8
+
+---
+
+Story: Add Advanced Analysis Features
+
+Description:
+As a quantitative analyst,
+I want advanced analysis tools,
+So that I can perform deeper market analysis.
+
+## Context/Background
+
+Integration of GEX data with strategy analysis provides comprehensive insights.
+
+## Acceptance Criteria
+
+- [ ] GEX data integration with strategy P&L
+- [ ] Volatility skew visualization
+- [ ] Risk metrics dashboard (delta, gamma, theta exposure)
+- [ ] Strategy comparison tools
+- [ ] Probability analysis for strategies
+- [ ] Scenario analysis capabilities
+
+## Technical Details
+
+- Advanced calculation engines
+- Additional visualizations
+- Statistical analysis tools
+
+## Dependencies
+
+- P&L visualization engine (Story 10)
+
+## Notes
+
+These features enhance the analytical capabilities beyond basic strategy building.
+
+## Estimated Story Points
+
+5

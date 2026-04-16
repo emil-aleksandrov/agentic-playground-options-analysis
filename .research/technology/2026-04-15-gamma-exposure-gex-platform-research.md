@@ -1,17 +1,17 @@
 ---
 research-date: 2026-04-15
 researcher: Research Agent
-topic: Gamma Exposure (GEX) Analysis Platform - Data Sources and Tech Stack
+topic: Options Strategy Analysis Platform - Data Sources and Tech Stack
 decision: Made
 related-tasks: POC-001, POC-002, POC-003
-tags: options-trading, gamma-exposure, financial-data, proof-of-concept
+tags: options-trading, gamma-exposure, options-strategies, financial-data, proof-of-concept
 ---
 
-# Research: Gamma Exposure (GEX) Analysis Platform - Data Sources and Tech Stack
+# Research: Options Strategy Analysis Platform - Data Sources and Tech Stack
 
 ## Summary
 
-This research investigates the requirements for building a proof-of-concept (POC) platform to analyze Gamma Exposure (GEX) in stock options trading. GEX measures the net gamma position of market makers, which can indicate potential price pressure on underlying stocks. The platform will use .NET/C# backend with free, delayed data sources to demonstrate GEX calculation and visualization capabilities.
+This research investigates the requirements for building a proof-of-concept (POC) platform to analyze Gamma Exposure (GEX) and options strategies in stock options trading. The platform will include GEX analysis to understand market maker positioning and provide options strategy tools similar to optionstrat.com, featuring ticker selection, strike price visualization, predefined/custom strategy creation, and Profit & Loss (P&L) projections. The platform will use .NET/C# backend with free, delayed data sources to demonstrate calculation and visualization capabilities.
 
 ## Questions Investigated
 
@@ -19,20 +19,31 @@ This research investigates the requirements for building a proof-of-concept (POC
 
 Gamma Exposure represents the aggregate gamma position held by market makers and institutions in options contracts. Gamma measures how fast delta changes with respect to underlying price movements. When market makers are net long gamma, they profit from large price swings and may support price stability. When net short gamma, they profit from price stability and may contribute to momentum moves.
 
-### What data do we need for GEX calculation?
+### What options strategy features are required?
+
+- **Ticker Selection**: Choose underlying security for analysis
+- **Strike Price Visualization**: Horizontal display of available strike prices for selected expiration
+- **Strategy Selection**: Predefined strategies (calls, puts, spreads, etc.) and custom strategy creation
+- **P&L Visualization**: Interactive charts showing profit/loss projections based on selected options
+- **Real-time Updates**: Dynamic P&L recalculation as options are added/removed
+
+### What data do we need for GEX and strategy analysis?
 
 - **Options Chain Data**: Strike prices, expiration dates, bid/ask prices, open interest, volume
 - **Underlying Stock Data**: Current price, historical prices
 - **Market Maker Positions**: Implied through options pricing and order flow
-- **Volatility Data**: Implied volatility for each option
+- **Volatility Data**: Implied volatility, historical volatility for each option
 - **Time to Expiration**: Days remaining until option expiry
+- **Greeks**: Delta, gamma, theta, vega, rho for strategy calculations
 
-### What are the key GEX calculations?
+### What are the key calculations?
 
 - **Individual Option Gamma**: gamma = (N(d2) _ S _ σ) / (2 \* √t)
 - **Net GEX**: Sum of gamma positions across all strikes (calls - puts)
 - **Zero Gamma Level**: Strike price where total gamma exposure is neutral
 - **GEX Index**: Normalized GEX values for comparison across stocks
+- **Strategy P&L**: Payoff calculations for various option combinations
+- **Breakeven Points**: Price levels where strategy becomes profitable
 
 ## Data Sources Analysis
 
@@ -124,12 +135,35 @@ Gamma Exposure represents the aggregate gamma position held by market makers and
 
 ### Frontend (For POC Visualization)
 
+#### Requirements for Complex Graphics
+
+The frontend must support:
+
+- Interactive strike price selection interface
+- Dynamic P&L payoff diagrams
+- Real-time chart updates as strategies change
+- Zoomable/pannable charts for detailed analysis
+- Multiple chart types (line, area, scatter plots)
+- Responsive design for various screen sizes
+
 #### Options for POC
 
-- **Blazor WebAssembly**: C# frontend, consistent with backend
-- **Razor Pages**: Simple server-side rendering
-- **Chart.js/Plotly**: JavaScript charting libraries
-- **Bootstrap**: Responsive UI
+- **Blazor WebAssembly with JavaScript Interop**: C# frontend with access to powerful JS charting libraries
+- **Charting Libraries**:
+  - Plotly.js: Interactive, web-based charting with 3D capabilities
+  - Highcharts: Professional charting library with extensive customization
+  - D3.js: Low-level visualization toolkit for custom graphics
+- **Alternative**: React with TypeScript if JS ecosystem is preferred for complex visualizations
+- **UI Framework**: Bootstrap or Tailwind CSS for responsive layout
+
+#### Recommended Approach
+
+**Primary**: Blazor WebAssembly with Plotly.js integration
+
+- Maintains C# codebase consistency
+- Plotly.js provides excellent interactive charts for P&L visualizations
+- Supports complex mathematical plotting required for options strategies
+- Can integrate with .NET backend seamlessly
 
 ### Data Storage
 
@@ -226,12 +260,23 @@ Infrastructure Layer (Data Access, External APIs)
 - Implement data visualization
 - Add error handling and logging
 
-### Phase 4: Analysis Features (Week 7-8)
+### Phase 4: Options Strategy Features (Week 7-10)
 
-- Add GEX trend analysis
-- Implement alerts for extreme GEX levels
-- Create comparative analysis tools
-- Performance optimization
+- Implement ticker selection and options chain display
+- Create strike price horizontal visualization
+- Build predefined strategy templates (calls, puts, spreads, iron condor, etc.)
+- Develop custom strategy builder interface
+- Implement P&L calculation engine for strategies
+- Create interactive P&L visualization with Plotly.js
+- Add real-time strategy adjustment and recalculation
+
+### Phase 5: Advanced Analysis (Week 11-12)
+
+- Integrate GEX data with strategy analysis
+- Add volatility skew visualization
+- Implement strategy comparison tools
+- Create risk metrics dashboard
+- Performance optimization and testing
 
 ## Risk Assessment
 
@@ -261,7 +306,7 @@ Infrastructure Layer (Data Access, External APIs)
 - **Backend**: ASP.NET Core 8.0 with C# 12
 - **Database**: SQLite for POC, PostgreSQL for production
 - **Data Source**: Yahoo Finance (primary), Alpha Vantage (secondary)
-- **Frontend**: Blazor WebAssembly for unified C# stack
+- **Frontend**: Blazor WebAssembly with Plotly.js for complex interactive visualizations
 - **Deployment**: Docker containers
 
 ### Data Strategy
@@ -313,16 +358,21 @@ Infrastructure Layer (Data Access, External APIs)
 ## Next Steps
 
 1. **Create POC Project Structure** - Set up .NET solution with Clean Architecture
-2. **Implement Data Ingestion** - Build Yahoo Finance integration
+2. **Implement Data Ingestion** - Build Yahoo Finance integration for options data
 3. **Create GEX Calculator** - Implement core gamma calculations
-4. **Build API Endpoints** - Create REST API for data access
-5. **Add Visualization** - Basic charts and GEX display
-6. **Testing & Validation** - Unit tests and data validation
+4. **Build API Endpoints** - Create REST API for GEX and options data access
+5. **Add Basic Visualization** - Implement GEX charts with Plotly.js
+6. **Develop Strategy Interface** - Create ticker selection and strike price display
+7. **Implement Strategy Builder** - Add predefined and custom strategy creation
+8. **Create P&L Visualization** - Build interactive payoff diagrams
+9. **Testing & Validation** - Unit tests and data validation
 
 ## Questions for Clarification
 
 - What specific stocks/indexes should be tracked initially?
 - What GEX analysis features are most important for the POC?
-- Are there specific visualization requirements?
-- What performance benchmarks should the POC meet?
+- What predefined strategies should be included (calls, puts, spreads, etc.)?
+- How should custom strategy creation work (drag-and-drop, form-based)?
+- What P&L visualization features are needed (breakeven lines, max profit/loss, etc.)?
 - Should we include options strategy analysis beyond GEX?
+- What performance benchmarks should the POC meet?
