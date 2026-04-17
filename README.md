@@ -13,6 +13,37 @@ This project demonstrates the calculation and analysis of Gamma Exposure (GEX), 
 - **Net Long Gamma**: Market makers profit from volatility; typically stabilizes prices
 - **Net Short Gamma**: Market makers profit from stability; can contribute to momentum moves
 
+## Options Trading Basics
+
+This project analyzes stock options, which are financial derivatives that give buyers the right (but not obligation) to buy or sell an underlying stock at a specific price within a certain timeframe. Understanding these basics will help with the business logic.
+
+### Key Concepts
+
+- **Call Option**: Right to buy the stock at a set price (strike price) by expiration
+- **Put Option**: Right to sell the stock at a set price by expiration
+- **Strike Price**: The predetermined price for buying/selling the stock
+- **Expiration Date**: When the option contract expires (typically monthly)
+- **Premium**: The price paid for the option contract
+- **In-the-Money (ITM)**: Option with intrinsic value (profitable if exercised)
+- **Out-of-the-Money (OTM)**: Option without intrinsic value
+- **At-the-Money (ATM)**: Option where strike equals current stock price
+
+### Options Greeks
+
+Options pricing involves "Greeks" that measure risk and sensitivity:
+
+- **Delta**: How option price changes with stock price
+- **Gamma**: Rate of change of delta (central to GEX analysis)
+- **Theta**: Time decay effect
+- **Vega**: Sensitivity to volatility changes
+- **Rho**: Sensitivity to interest rate changes
+
+### Resources
+
+- [Investopedia: Options Trading](https://www.investopedia.com/terms/o/optionscontract.asp)
+- [CBOE: Options Basics](https://www.cboe.com/learn-center/how-options-work/)
+- [Options Greeks Explained](https://www.investopedia.com/terms/g/greeks.asp)
+
 ## Project Status
 
 🚀 **Proof of Concept - IN DEVELOPMENT**
