@@ -1,6 +1,10 @@
 using GexPlatform.Infrastructure.Data;
+using GexPlatform.Infrastructure.Services;
+using GexPlatform.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Polly.Retry;
+using Polly.CircuitBreaker;
 
 namespace GexPlatform.Infrastructure.Extensions;
 
@@ -23,6 +27,13 @@ public static class InfrastructureExtensions
         services.AddDbContext<GexPlatformDbContext>(options =>
             options.UseSqlite(connectionString)
         );
+
+        // Configure HttpClient for external API calls
+        services.AddHttpClient<IOptionsDataProvider, YahooFinanceClient>()
+            .ConfigureHttpClient(client =>
+            {
+                client.Timeout = TimeSpan.FromSeconds(30);
+            });
 
         return services;
     }
