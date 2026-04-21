@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B1108A8-415F-4AF7-8F4D-8DA6DBDFCC65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GexPlatform.Domain", "src\GexPlatform.Domain\GexPlatform.Domain.csproj", "{A415D9CE-B016-4949-BD07-ABC888E2BB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GexPlatform.Application", "src\GexPlatform.Application\GexPlatform.Application.csproj", "{2EA690A9-DEAE-46A6-9A95-CE404E05DF81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GexPlatform.Infrastructure", "src\GexPlatform.Infrastructure\GexPlatform.Infrastructure.csproj", "{F7EEB8CA-B146-453B-BE83-583F673007DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GexPlatform.Presentation", "src\GexPlatform.Presentation\GexPlatform.Presentation.csproj", "{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{791EB61A-D493-4002-AADF-755B85F00E22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GexPlatform.Tests", "tests\GexPlatform.Tests\GexPlatform.Tests.csproj", "{79880F46-6601-4D29-9E8A-4F272255E4A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A415D9CE-B016-4949-BD07-ABC888E2BB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A415D9CE-B016-4949-BD07-ABC888E2BB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A415D9CE-B016-4949-BD07-ABC888E2BB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A415D9CE-B016-4949-BD07-ABC888E2BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EA690A9-DEAE-46A6-9A95-CE404E05DF81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EA690A9-DEAE-46A6-9A95-CE404E05DF81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EA690A9-DEAE-46A6-9A95-CE404E05DF81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EA690A9-DEAE-46A6-9A95-CE404E05DF81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7EEB8CA-B146-453B-BE83-583F673007DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7EEB8CA-B146-453B-BE83-583F673007DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7EEB8CA-B146-453B-BE83-583F673007DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7EEB8CA-B146-453B-BE83-583F673007DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79880F46-6601-4D29-9E8A-4F272255E4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79880F46-6601-4D29-9E8A-4F272255E4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79880F46-6601-4D29-9E8A-4F272255E4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79880F46-6601-4D29-9E8A-4F272255E4A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A415D9CE-B016-4949-BD07-ABC888E2BB9B} = {1B1108A8-415F-4AF7-8F4D-8DA6DBDFCC65}
+		{2EA690A9-DEAE-46A6-9A95-CE404E05DF81} = {1B1108A8-415F-4AF7-8F4D-8DA6DBDFCC65}
+		{F7EEB8CA-B146-453B-BE83-583F673007DA} = {1B1108A8-415F-4AF7-8F4D-8DA6DBDFCC65}
+		{6BE3B0D4-4CEB-4092-BEB0-3EBBD5CB9AE9} = {1B1108A8-415F-4AF7-8F4D-8DA6DBDFCC65}
+		{79880F46-6601-4D29-9E8A-4F272255E4A7} = {791EB61A-D493-4002-AADF-755B85F00E22}
+	EndGlobalSection
+EndGlobal

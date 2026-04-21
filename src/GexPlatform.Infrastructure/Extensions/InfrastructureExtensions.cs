@@ -1,0 +1,29 @@
+using GexPlatform.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace GexPlatform.Infrastructure.Extensions;
+
+/// <summary>
+/// Extension methods for configuring infrastructure services.
+/// </summary>
+public static class InfrastructureExtensions
+{
+    /// <summary>
+    /// Adds infrastructure services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="connectionString">The database connection string.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        string connectionString)
+    {
+        // Configure DbContext with SQLite
+        services.AddDbContext<GexPlatformDbContext>(options =>
+            options.UseSqlite(connectionString)
+        );
+
+        return services;
+    }
+}

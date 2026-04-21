@@ -169,6 +169,45 @@ instructions: |
   git push origin feature/issue-2
   ```
 
+  ### Git Workflow Best Practices
+
+  **ALWAYS follow this workflow when implementing tasks:**
+
+  1. **Create a feature branch** before starting any implementation work
+     - Branch naming convention: `feature/issue-<number>` (e.g., `feature/issue-3`)
+     - Branch from `main` or current development branch
+     - Create branch immediately, before writing code
+
+  2. **Commit regularly** as you implement features
+     - Make atomic commits (one logical change per commit)
+     - Use descriptive commit messages with issue reference
+     - Format: `<type>: <description> (#issue-number)`
+     - Examples:
+       - `feat: implement Yahoo Finance API client (#3)`
+       - `feat: add retry policies with Polly (#3)`
+       - `test: add unit tests for API client (#3)`
+       - `fix: handle API timeout errors (#3)`
+
+  3. **Push all changes** to the feature branch
+     - Push after completing each logical unit of work
+     - Never commit directly to main/master
+
+  4. **Complete the task** by ensuring:
+     - All acceptance criteria are met
+     - Code builds successfully with no warnings/errors
+     - Tests pass (when applicable)
+     - Final commit clearly marks completion
+
+  **Example:**
+  ```bash
+  git checkout -b feature/issue-3
+  # ... implement feature ...
+  git add src/GexPlatform.Infrastructure/Services/YahooFinanceClient.cs
+  git commit -m "feat: implement Yahoo Finance API client (#3)"
+  # ... more commits ...
+  git push origin feature/issue-3
+  ```
+
   ## When to Ask for Clarification
   - Expected deployment environment (Azure, on-premises, containers)
   - Existing technology stack and constraints
