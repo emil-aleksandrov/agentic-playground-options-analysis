@@ -2,6 +2,8 @@ using GexPlatform.Application.Dtos;
 using GexPlatform.Application.Interfaces;
 using GexPlatform.Infrastructure.Exceptions;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.CircuitBreaker;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -15,6 +17,8 @@ public class YahooFinanceClient : IOptionsDataProvider
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<YahooFinanceClient> _logger;
+    private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
+    private readonly IAsyncPolicy<HttpResponseMessage> _circuitBreakerPolicy;
 
     /// <summary>
     /// Base URL for Yahoo Finance API endpoints.
@@ -25,6 +29,40 @@ public class YahooFinanceClient : IOptionsDataProvider
     {
         _httpClient = httpClient;
         _logger = logger;
+
+        // Initialize Polly retry policy for transient errors
+        _retryPolicy = Policy
+            .Handle<HttpRequestException>()
+            .Or<TimeoutException>()
+            .OrResult<HttpResponseMessage>(r => (int)r.StatusCode >= 500)
+            .WaitAndRetryAsync<HttpResponseMessage>(
+                retryCount: 3,
+                sleepDurationProvider: retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                onRetry: (outcome, timespan, retryCount, context) =>
+                {
+                    _logger.LogWarning(
+                        "Retry {RetryCount} after {DelaySeconds}s for Yahoo Finance API",
+                        retryCount, timespan.TotalSeconds);
+                });
+
+        // Initialize Polly circuit breaker policy
+        _circuitBreakerPolicy = Policy
+            .Handle<HttpRequestException>()
+            .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+            .CircuitBreakerAsync<HttpResponseMessage>(
+                handledEventsAllowedBeforeBreaking: 5,
+                durationOfBreak: TimeSpan.FromSeconds(30),
+                onBreak: (outcome, timespan) =>
+                {
+                    _logger.LogError(
+                        "Circuit breaker opened for {DurationSeconds}s due to repeated failures",
+                        timespan.TotalSeconds);
+                },
+                onReset: () =>
+                {
+                    _logger.LogInformation("Circuit breaker reset");
+                });
     }
 
     /// <summary>
@@ -42,7 +80,7 @@ public class YahooFinanceClient : IOptionsDataProvider
             var timestamp = (long)(expirationDate.Date - new DateTime(1970, 1, 1)).TotalSeconds;
             var url = $"{YahooFinanceBaseUrl}/finance/options/{ticker}?date={timestamp}";
 
-            using var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            using var response = await ExecuteWithPoliciesAsync(url, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
@@ -99,10 +137,11 @@ public class YahooFinanceClient : IOptionsDataProvider
 
             var url = $"{YahooFinanceBaseUrl}/finance/options/{ticker}";
 
-            using var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            using var response = await ExecuteWithPoliciesAsync(url, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
-            var responseData = await response.Content.ReadAsJsonAsync<YahooFinanceResponse>(cancellationToken: cancellationToken)
+            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            var responseData = await JsonSerializer.DeserializeAsync<YahooFinanceResponse>(responseStream, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             if (responseData?.OptionChains?.Count == 0)
@@ -200,6 +239,21 @@ public class YahooFinanceClient : IOptionsDataProvider
         var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
         return dateTime;
+    }
+
+    /// <summary>
+    /// Executes an HTTP GET request with Polly retry and circuit breaker policies.
+    /// </summary>
+    private async Task<HttpResponseMessage> ExecuteWithPoliciesAsync(
+        string url,
+        CancellationToken cancellationToken)
+    {
+        // Combine retry and circuit breaker policies
+        var combinedPolicy = Policy.WrapAsync(_retryPolicy, _circuitBreakerPolicy);
+
+        return await combinedPolicy.ExecuteAsync(
+            ct => _httpClient.GetAsync(url, ct),
+            cancellationToken).ConfigureAwait(false);
     }
 
     #region Yahoo Finance Response Models

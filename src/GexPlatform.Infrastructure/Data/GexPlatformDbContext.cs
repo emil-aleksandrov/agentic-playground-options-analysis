@@ -42,11 +42,11 @@ public class GexPlatformDbContext : DbContext
             entity.Property(e => e.Ticker).IsRequired().HasMaxLength(10);
             entity.Property(e => e.ExpirationDate).IsRequired();
             entity.Property(e => e.UnderlyingPrice).HasPrecision(18, 4);
-            
+
             // Create compound index for unique constraint
             entity.HasIndex(e => new { e.Ticker, e.ExpirationDate })
                 .IsUnique();
-            
+
             // Configure one-to-many relationship
             entity.HasMany(e => e.Contracts)
                 .WithOne(c => c.OptionChain)
