@@ -32,7 +32,7 @@ Integration tests verify that multiple components work together correctly. Unlik
 
 ## Shared Testing Fundamentals
 
-Reference [`dotnet-testing-fundamentals.skill.md`](../skills/testing/dotnet-testing-fundamentals.skill.md) for:
+Reference [`dotnet-testing-fundamentals.skill.md`](.github\skills\testing\dotnet-testing-fundamentals.skill.md) for:
 
 - Core testing frameworks and libraries (xUnit, Moq, FluentAssertions)
 - Test structure and naming conventions
