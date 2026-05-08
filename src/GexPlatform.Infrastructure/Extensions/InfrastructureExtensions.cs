@@ -1,4 +1,5 @@
 using GexPlatform.Infrastructure.Data;
+using GexPlatform.Infrastructure.Repositories;
 using GexPlatform.Infrastructure.Services;
 using GexPlatform.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,10 @@ public static class InfrastructureExtensions
         services.AddDbContext<GexPlatformDbContext>(options =>
             options.UseSqlite(connectionString)
         );
+
+        // Register repositories
+        services.AddScoped<IOptionChainRepository, OptionChainRepository>();
+        services.AddScoped<IOptionContractRepository, OptionContractRepository>();
 
         // Configure HttpClient for external API calls
         // Polly retry policies are implemented for resilience
